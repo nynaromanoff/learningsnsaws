@@ -73,7 +73,7 @@ public class RabbitMQConfiguration {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate();
         rabbitTemplate.setConnectionFactory(connectionFactory);
-        rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
+            rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
 
         return rabbitTemplate;
     }

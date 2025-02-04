@@ -18,6 +18,4 @@ public class Usuario {
     private String cpf;
 
     private Double renda;
-
-    private Proposta proposta;
 }

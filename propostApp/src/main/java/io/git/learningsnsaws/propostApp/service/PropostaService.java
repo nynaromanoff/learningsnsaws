@@ -13,17 +13,17 @@ import java.util.List;
 @Service
 public class PropostaService {
 
-    private PropostaRepository repository;
+    private final PropostaRepository repository;
 
-    private NotificationRabbitMQService notificaçãoRabbitMQService;
+    private final NotificationRabbitMQService notificationRabbitMQService;
 
-    private String exchange;
+    private final String exchange;
 
     public PropostaService(PropostaRepository repository,
                            NotificationRabbitMQService notificationRabbitMQService,
                            @Value("${rabbitmq.propostapendente.exchange}") String exchange) {
         this.repository = repository;
-        this.notificaçãoRabbitMQService = notificationRabbitMQService;
+        this.notificationRabbitMQService = notificationRabbitMQService;
         this.exchange = exchange;
     }
 
@@ -32,14 +32,12 @@ public class PropostaService {
         repository.save(proposta);
 
         notifyRabittMQ(proposta);
-        notificaçãoRabbitMQService.notify(proposta, exchange);
         return PropostaMapper.INSTANCE.convertEntityToDto(proposta);
     }
 
     public void notifyRabittMQ(Proposta proposta) {
-
         try {
-            notificaçãoRabbitMQService.notify(proposta, exchange);
+            notificationRabbitMQService.notify(proposta, exchange);
         } catch (RuntimeException ex) {
             proposta.setIntegrada(false);
             repository.save(proposta);

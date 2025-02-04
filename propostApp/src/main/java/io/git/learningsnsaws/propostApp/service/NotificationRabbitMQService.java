@@ -12,6 +12,7 @@ public class NotificationRabbitMQService {
     private RabbitTemplate rabbitTemplate;
 
     public void notify(Proposta proposta, String exchange) {
+
         rabbitTemplate.convertAndSend(exchange, "", proposta);
     }
 }
