@@ -1,11 +1,14 @@
 package io.github.learningaws.analisecredito.service.strategy.impl;
 
 import io.github.learningaws.analisecredito.domain.Proposta;
+import io.github.learningaws.analisecredito.exceptions.StrategyException;
 import io.github.learningaws.analisecredito.service.strategy.CalculoPonto;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@Order(2)
 @Component
 public class PontuacaoScoreImpl implements CalculoPonto {
 
@@ -14,7 +17,7 @@ public class PontuacaoScoreImpl implements CalculoPonto {
         int score = score();
 
         if(score <= 200) {
-            throw new RuntimeException("Score Abaixo do esperado!");
+            throw new StrategyException("Score Abaixo do esperado!");
         }else if (score <= 400) {
             return 150;
         } else if (score <= 600) {

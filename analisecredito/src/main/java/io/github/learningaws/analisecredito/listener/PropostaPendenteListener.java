@@ -1,16 +1,21 @@
 package io.github.learningaws.analisecredito.listener;
 
 import io.github.learningaws.analisecredito.domain.Proposta;
-import lombok.AllArgsConstructor;
+import io.github.learningaws.analisecredito.service.AnaliseCreditoService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@AllArgsConstructor
-@Component
+@Configuration
 public class PropostaPendenteListener {
 
-    @RabbitListener(queues = "${rabbitmq.queue.proposta.pendente}")
-    public void propostaPendente(Proposta proposta) {
+    private final AnaliseCreditoService analiseCreditoService;
 
+    public PropostaPendenteListener(AnaliseCreditoService analiseCreditoService) {
+        this.analiseCreditoService = analiseCreditoService;
+    }
+
+    @RabbitListener(queues = "${rabbitmq.queue.proposta.pendente}")
+    public void propostaEmAnalise(Proposta proposta) {
+        analiseCreditoService.analisar(proposta);
     }
 }
